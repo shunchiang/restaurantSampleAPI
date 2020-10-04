@@ -10,6 +10,7 @@ import com.lambdaschool.crudyrestaurants.repositories.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import views.MenuCounts;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -54,6 +55,18 @@ public class RestaurantServicesImpl
     @Override
     public List<Restaurant> findByKeyword(String subname) {
         List<Restaurant> list = restrepos.findByNameContainingIgnoringCase(subname);
+        return list;
+    }
+
+    @Override
+    public List<MenuCounts> countMenusByRestaurant() {
+        List<MenuCounts> list=restrepos.findMenuCounts();
+        return list;
+    }
+
+    @Override
+    public List<Restaurant> findAllRestaurantByDish(String dish) {
+        List<Restaurant> list= restrepos.findByMenus_dishContainingIgnoringCase(dish);
         return list;
     }
 

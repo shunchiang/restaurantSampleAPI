@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import views.MenuCounts;
 
 import java.util.List;
 
@@ -44,10 +45,19 @@ public class RestaurantController {
     }
 
     // http://localhost2020/restaurants/menucounts return menu count of restaurants
+    @GetMapping(value="/menucounts", produces = {"application/json"})
+    public ResponseEntity<?> listRestaurantMenuCounts(){
+        List<MenuCounts>rtnList = restaurantServices.countMenusByRestaurant();
+        return new ResponseEntity<>(rtnList,HttpStatus.OK);
+    };
 
-    // http://localhost2020/restaurants/likeddish/{foodKeyWord} find restaurant with menu item key names
 
-
+    // http://localhost2020/restaurants/likedish/{foodKeyWord} find restaurant with menu item key names
+    @GetMapping(path="/likedish/{dish}", produces = "application/json")
+    public ResponseEntity<?> findRestaurantByDish(@PathVariable String dish){
+        List<Restaurant>rtnList=restaurantServices.findAllRestaurantByDish(dish);
+        return new ResponseEntity<>(rtnList,HttpStatus.OK);
+    }
 
 
 }

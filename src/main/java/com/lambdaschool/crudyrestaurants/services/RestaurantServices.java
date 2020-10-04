@@ -1,6 +1,7 @@
 package com.lambdaschool.crudyrestaurants.services;
 
 import com.lambdaschool.crudyrestaurants.models.Restaurant;
+import views.MenuCounts;
 
 import java.util.List;
 
@@ -17,6 +18,9 @@ public interface RestaurantServices
 
     List<Restaurant> findByKeyword(String subname);
 
+    List<MenuCounts> countMenusByRestaurant();
+
+    List<Restaurant> findAllRestaurantByDish(String dish);
     /**
      * Given a complete restaurant object, saves that restaurant object in the database.
      * If a primary key is provided, the record is completely replaced

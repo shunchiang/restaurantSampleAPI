@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Implements the RestaurantServices Interface.
  */
@@ -24,6 +28,34 @@ public class RestaurantServicesImpl
      */
     @Autowired
     private RestaurantRepository restrepos;
+
+    @Override
+    public List<Restaurant> findAllRestaurants() {
+        List<Restaurant> list = new ArrayList<>();
+        restrepos.findAll().iterator().forEachRemaining((list::add));
+        return list;
+    }
+
+    @Override
+    public Restaurant findRestaurantById(long id) {
+        return restrepos.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("restaurant "+id+" not found"));
+    }
+
+    @Override
+    public Restaurant findRestaurantByName(String name) {
+        Restaurant restaurant = restrepos.findByName(name);
+        if(restaurant==null){
+            throw new EntityNotFoundException("Restaurant "+ name + " not found");
+        }
+        return restaurant;
+    }
+
+    @Override
+    public List<Restaurant> findByKeyword(String subname) {
+        List<Restaurant> list = restrepos.findByNameContainingIgnoringCase(subname);
+        return list;
+    }
 
     @Transactional
     @Override
